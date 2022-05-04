@@ -239,7 +239,7 @@ input[type=checkbox], input[type=radio] {
 .keyboard {
   position: relative;
   display: flex;
-  max-width: 1200px;
+  max-width: 850px;
   width: 100%;
   margin: 0 auto;
   background-color: #aeaeae;

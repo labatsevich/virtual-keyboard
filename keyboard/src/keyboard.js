@@ -1,5 +1,6 @@
-import keysMap from './utils/keysMap';
-import createControl from './utils/helpers';
+/* eslint-disable import/extensions */
+import keysMap from './utils/keysMap.js';
+import createControl from './utils/helpers.js';
 
 class Keyboard {
     constructor(selector = 'keyboard') {
@@ -17,9 +18,9 @@ class Keyboard {
 
         this.keys.forEach((row) => {
             const buttons = row.map((item) => {
-                const { code = '', key, shiftKey = '' } = collection.find((k) => k.code === item) || {};
+                const { code, key, shiftKey } = collection.find((k) => k.code === item) || {};
 
-                const button = createControl('button', key, ['keyboard__key']);
+                const button = createControl('button', key, ['keyboard__key', code]);
 
                 return button;
             });
