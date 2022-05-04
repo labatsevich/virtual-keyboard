@@ -1,9 +1,6 @@
-import Keyboard from "./keyboard.js";
+/* eslint-disable import/extensions */
+import Keyboard from './keyboard.js';
 
-const keyboard = new Keyboard()
+const keyboard = new Keyboard();
 
-document.body.insertAdjacentElement('afterbegin', keyboard.render())
-
-document.addEventListener('keyup', e => {
-    console.log(e)
-})
+document.body.insertAdjacentElement('afterbegin', keyboard.render());

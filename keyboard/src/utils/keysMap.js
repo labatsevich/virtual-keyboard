@@ -1,83 +1,79 @@
 export default [
 
-    //'Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Minus', 'Equal', 'Backspace'
-    //'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight'
     {
         lang: 'en',
         keys: [{
                 code: 'Backquote',
                 key: '`',
-                shiftKey: '~'
+                shiftKey: '~',
             },
             {
                 code: 'Digit1',
                 key: '1',
-                shiftKey: '!'
+                shiftKey: '!',
             },
             {
                 code: 'Digit2',
                 key: '2',
-                shiftKey: '@'
+                shiftKey: '@',
             },
             {
                 code: 'Digit3',
                 key: '3',
-                shiftKey: '#'
+                shiftKey: '#',
             },
             {
                 code: 'Digit4',
                 key: '4',
-                shiftKey: '$'
+                shiftKey: '$',
             },
             {
                 code: 'Digit5',
                 key: '5',
-                shiftKey: '%'
+                shiftKey: '%',
             },
             {
                 code: 'Digit6',
                 key: '6',
-                shiftKey: '^'
+                shiftKey: '^',
             },
             {
                 code: 'Digit7',
                 key: '7',
-                shiftKey: '&'
+                shiftKey: '&',
             },
             {
                 code: 'Digit8',
                 key: '8',
-                shiftKey: '*'
+                shiftKey: '*',
             },
             {
                 code: 'Digit9',
                 key: '9',
-                shiftKey: '('
+                shiftKey: '(',
             },
             {
                 code: 'Digit0',
                 key: '0',
-                shiftKey: ')'
+                shiftKey: ')',
             },
             {
                 code: 'Minus',
                 key: '-',
-                shiftKey: '_'
+                shiftKey: '_',
             },
             {
                 code: 'Equal',
                 key: '=',
-                shiftKey: '+'
+                shiftKey: '+',
             },
             {
                 code: 'Backspace',
                 key: 'Backspace',
-                shiftKey: 'Backspace'
+                shiftKey: 'Backspace',
             },
 
-        ]
-    }
+        ],
+    },
 
-
-
-]
+];
