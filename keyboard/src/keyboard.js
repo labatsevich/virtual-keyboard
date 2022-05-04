@@ -3,39 +3,40 @@ import createControl from "./utils/helpers.js"
 
 class Keyboard {
 
-    keys = [
-        ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Minus', 'Equal', 'Backspace'],
-        ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight']
-    ]
+
     constructor(selector = "keyboard") {
         this.selector = selector;
-
+        this.keys = [
+            ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Minus', 'Equal', 'Backspace'],
+            ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight']
+        ];
     }
+
+
 
     render() {
 
         const container = createControl('div', '', [this.selector])
 
-        const collection = keysMap.find(item => item.lang === 'en')
+        const collection = keysMap.find(item => item.lang === 'en').keys
 
-        console.log(collection)
+        this.keys.forEach((row) => {
 
+            const buttons = row.map(item => {
 
-        this.keys.forEach(row => {
+                const { code, key, shiftKey } = collection.find(k => k.code == item) || {}
 
-            const keyboardRow = createControl('div', '', ['keyboard__row'])
-
-            keyboardRow.append(...row.map(k => {
-
-                const keyObject = collection.find((item) => { return item.code === k })
+                console.log(key)
                 const button = createControl('button', key, ['keyboard__key'])
 
-                button.setAttribute('type', 'button')
-
                 return button
-            }))
+            })
+
+            const keyboardRow = createControl('div', '', ['keyboard__row'])
+            keyboardRow.append(...buttons)
 
             container.append(keyboardRow)
+
 
         })
 
