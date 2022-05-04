@@ -19,5 +19,17 @@
         border-radius: 4px;
         margin: 3px;
         border: none;
+        &.pressed {
+            background-color: #cccccc;
+        }
+    }
+    .backspace,
+    .enter,
+    .capslock,
+    .shift {
+        width: 100px;
+    }
+    .space {
+        width: 250px;
     }
 }

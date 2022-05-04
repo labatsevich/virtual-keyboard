@@ -5,6 +5,7 @@ import createControl from './utils/helpers.js';
 class Keyboard {
     constructor(selector = 'keyboard') {
         this.selector = selector;
+        this.root = document;
         this.keys = [
             ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Minus', 'Equal', 'Backspace'],
             ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight'],
@@ -12,6 +13,22 @@ class Keyboard {
             ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
             ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'MetaRight', 'ContextMenu', 'ControlRight', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'],
         ];
+    }
+
+    init() {
+        this.root.addEventListener('keydown', this.eventHandler.bind(this));
+        this.root.addEventListener('keyup', this.eventHandler.bind(this));
+    }
+
+    eventHandler(event) {
+        if (event.type === 'keydown') {
+            document.querySelector(`[data-code="${event.code}"]`).classList.add('pressed');
+        }
+        if (event.type === 'keyup') {
+            document.querySelector(`[data-code="${event.code}"]`).classList.remove('pressed');
+        }
+
+        return this;
     }
 
     render() {
@@ -24,6 +41,7 @@ class Keyboard {
                 const { code, lower, upper } = collection.find((k) => k.code === item) || {};
 
                 const button = createControl('button', lower, ['keyboard__key', code.toLowerCase()]);
+                button.dataset.code = code;
 
                 return button;
             });
@@ -36,6 +54,8 @@ class Keyboard {
 
         return container;
     }
+
+
 }
 
 export default Keyboard;

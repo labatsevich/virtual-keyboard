@@ -258,5 +258,17 @@ input[type=checkbox], input[type=radio] {
   margin: 3px;
   border: none;
 }
+.keyboard__key.pressed {
+  background-color: #cccccc;
+}
+.keyboard .backspace,
+.keyboard .enter,
+.keyboard .capslock,
+.keyboard .shift {
+  width: 100px;
+}
+.keyboard .space {
+  width: 250px;
+}
 
 /*# sourceMappingURL=styles.css.map */
