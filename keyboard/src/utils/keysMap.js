@@ -4,7 +4,7 @@ export default [
     //'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight'
     {
         lang: 'en',
-        map: [{
+        keys: [{
                 code: 'Backquote',
                 key: '`',
                 shiftKey: '~'

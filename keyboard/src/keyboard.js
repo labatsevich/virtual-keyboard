@@ -16,7 +16,9 @@ class Keyboard {
 
         const container = createControl('div', '', [this.selector])
 
-        const collection = keysMap.find(item => item.lang === 'en').map
+        const collection = keysMap.find(item => item.lang === 'en')
+
+        console.log(collection)
 
 
         this.keys.forEach(row => {
@@ -26,8 +28,8 @@ class Keyboard {
             keyboardRow.append(...row.map(k => {
 
                 const keyObject = collection.find((item) => { return item.code === k })
-
                 const button = createControl('button', key, ['keyboard__key'])
+
                 button.setAttribute('type', 'button')
 
                 return button
