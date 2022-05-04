@@ -1,0 +1,23 @@
+@import 'normalize';
+.keyboard {
+    position: relative;
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #aeaeae;
+    flex-direction: column;
+    &__row {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__key {
+        outline: none;
+        width: 6%;
+        line-height: 2.3rem;
+        letter-spacing: .06em;
+        border-radius: 4px;
+        margin: 3px;
+        border: none;
+    }
+}
