@@ -238,6 +238,8 @@ input[type=checkbox], input[type=radio] {
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .keyboard {
@@ -296,6 +298,12 @@ body {
 }
 .keyboard .space {
   flex-basis: 250px;
+}
+
+textarea {
+  max-width: 800px;
+  width: 100%;
+  margin: 100px auto 100px;
 }
 
 /*# sourceMappingURL=styles.css.map */
