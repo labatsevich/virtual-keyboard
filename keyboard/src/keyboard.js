@@ -95,12 +95,15 @@ class Keyboard {
     }
 
     textboxUpdate(event) {
+        let symbol = '';
+        const { selectionStart, selectionEnd } = this.textbox;
         if (!this.funcKeys.includes(event.code)) {
-            this.textbox.setRangeText(event.key, this.textbox.selectionStart, this.textbox.selectionEnd, 'end');
+            symbol = event.key;
         } else if (['Enter', 'Tab', 'Space'].includes(event.code)) {
-            const symbol = this.specialKeys[event.code] || '';
-            this.textbox.setRangeText(symbol, this.textbox.selectionStart, this.textbox.selectionEnd, 'end');
+            symbol = this.specialKeys[event.code] || '';
         }
+
+        this.textbox.setRangeText(symbol, selectionStart, selectionEnd, 'end');
     }
 }
 
