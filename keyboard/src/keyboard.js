@@ -70,6 +70,11 @@ class Keyboard {
     onKeydown(event) {
         event.preventDefault();
 
+        if (event.code === 'CapsLock') {
+            this.properties.isCapsSwitched = !this.properties.isCapsSwitched;
+            this.root.querySelector(`[data-code="${event.code}"]`).classList.add('pressed');
+            this.root.querySelector(`[data-code="${event.code}"]`).classList.toggle('switched');
+        }
         this.root.querySelector(`[data-code="${event.code}"]`).classList.add('pressed');
         this.textboxUpdate(event);
         this.properties.isCapsSwitched = !this.properties.isCapsSwitched;
