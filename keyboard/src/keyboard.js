@@ -1,14 +1,16 @@
+/* eslint-disable indent */
 /* eslint-disable import/extensions */
 import keysMap from './utils/keysMap.js';
 import createControl from './utils/helpers.js';
 
 class Keyboard {
-    constructor(selector = 'keyboard') {
-        this.selector = selector;
+    constructor(selector) {
+        this.selector = selector || 'keyboard';
         this.root = document;
         this.textbox = null;
         this.properties = {
             value: '',
+            isCapsSwitched: false,
         };
         this.keys = [
             ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Minus', 'Equal', 'Backspace'],
@@ -17,12 +19,19 @@ class Keyboard {
             ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
             ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'MetaRight', 'ContextMenu', 'ControlRight', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'],
         ];
+        this.funcKeys = ['Backspace', 'Tab', 'CapsLock', 'Enter', 'ShiftLeft', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'MetaRight', 'ContextMenu', 'ControlRight', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+        this.specialKeys = {
+            Enter: '\n',
+            Space: ' ',
+            Tab: '\t',
+        };
     }
 
     init() {
-        const textarea = createControl('textarea', '', []);
-        this.root.body.insertAdjacentElement('afterbegin', textarea);
-        this.textbox = textarea;
+        this.textbox = createControl('textarea', '', []);
+        // textarea.focus();
+        this.root.body.insertAdjacentElement('afterbegin', this.textbox);
+        // this.textbox = textarea;
         this.root.addEventListener('keydown', this.eventHandler.bind(this));
         this.root.addEventListener('keyup', this.eventHandler.bind(this));
         this.root.addEventListener('click', this.eventHandler.bind(this));
@@ -59,8 +68,12 @@ class Keyboard {
     }
 
     onKeydown(event) {
+        event.preventDefault();
+
         this.root.querySelector(`[data-code="${event.code}"]`).classList.add('pressed');
         this.textboxUpdate(event);
+        this.properties.isCapsSwitched = !this.properties.isCapsSwitched;
+
         return this;
     }
 
@@ -70,13 +83,19 @@ class Keyboard {
     }
 
     onClick(event) {
-        let bla = event.target;
+        if (event.target.classList.contains('keyboard__key')) {
+            this.textbox.textContent += event.target.innerText;
+        }
         return this;
     }
 
     textboxUpdate(event) {
-        this.properties.value += event.key;
-        this.textbox.value += this.properties.value;
+        if (!this.funcKeys.includes(event.code)) {
+            this.textbox.setRangeText(event.key, this.textbox.selectionStart, this.textbox.selectionEnd, 'end');
+        } else if (['Enter', 'Tab', 'Space'].includes(event.code)) {
+            const symbol = this.specialKeys[event.code] || '';
+            this.textbox.setRangeText(symbol, this.textbox.selectionStart, this.textbox.selectionEnd, 'end');
+        }
     }
 }
 
