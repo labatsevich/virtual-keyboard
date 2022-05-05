@@ -236,39 +236,66 @@ input[type=checkbox], input[type=radio] {
   padding: 0;
 }
 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .keyboard {
   position: relative;
   display: flex;
   max-width: 850px;
   width: 100%;
   margin: 0 auto;
-  background-color: #aeaeae;
+  background-color: #c6c6c6;
   flex-direction: column;
+  padding: 5px 10px 10px;
 }
 .keyboard__row {
   display: flex;
   justify-content: space-between;
 }
 .keyboard__key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   outline: none;
-  width: 6%;
+  flex: 1;
   line-height: 2.3rem;
-  letter-spacing: 0.06em;
   border-radius: 4px;
   margin: 3px;
   border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 .keyboard__key.pressed {
   background-color: #cccccc;
 }
+.keyboard__key.pressed.capslock::after {
+  background-color: lawngreen;
+}
+.keyboard .capslock {
+  position: relative;
+}
+.keyboard .capslock:after {
+  display: block;
+  width: 6px;
+  height: 6px;
+  position: absolute;
+  left: 10px;
+  top: calc(50% - 3px);
+  content: "";
+  border-radius: 100%;
+  background-color: darkgreen;
+}
 .keyboard .backspace,
 .keyboard .enter,
 .keyboard .capslock,
-.keyboard .shift {
-  width: 100px;
+.keyboard .shiftright,
+.keyboard .shiftleft,
+.keyboard .tab {
+  flex-basis: 100px;
 }
 .keyboard .space {
-  width: 250px;
+  flex-basis: 250px;
 }
 
 /*# sourceMappingURL=styles.css.map */

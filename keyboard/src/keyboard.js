@@ -6,6 +6,7 @@ class Keyboard {
     constructor(selector = 'keyboard') {
         this.selector = selector;
         this.root = document;
+        this.texteditor
         this.keys = [
             ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Minus', 'Equal', 'Backspace'],
             ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight'],
@@ -21,6 +22,7 @@ class Keyboard {
     }
 
     eventHandler(event) {
+        console.log(event);
         if (event.type === 'keydown') {
             document.querySelector(`[data-code="${event.code}"]`).classList.add('pressed');
         }
@@ -54,8 +56,6 @@ class Keyboard {
 
         return container;
     }
-
-
 }
 
 export default Keyboard;
