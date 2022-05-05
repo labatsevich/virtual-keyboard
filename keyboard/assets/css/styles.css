@@ -268,8 +268,8 @@ body {
   border: none;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-.keyboard__key.switched {
-  background-color: #cccccc;
+.keyboard__key.pressed, .keyboard__key.switched {
+  background-color: rgb(89, 187, 243);
 }
 .keyboard__key.switched.capslock::after {
   background-color: lawngreen;

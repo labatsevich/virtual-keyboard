@@ -4,8 +4,8 @@ import keysMap from './utils/keysMap.js';
 import createControl from './utils/helpers.js';
 
 class Keyboard {
-    constructor(selector) {
-        this.selector = selector || 'keyboard';
+    constructor() {
+        this.selector = 'keyboard';
         this.root = document;
         this.textbox = null;
         this.properties = {
@@ -13,7 +13,7 @@ class Keyboard {
             isCapsSwitched: false,
         };
         this.keys = [
-            ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Minus', 'Equal', 'Backspace'],
+            ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
             ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight'],
             ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'],
             ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
@@ -29,15 +29,16 @@ class Keyboard {
 
     init() {
         this.textbox = createControl('textarea', '', []);
-        // textarea.focus();
         this.root.body.insertAdjacentElement('afterbegin', this.textbox);
-        // this.textbox = textarea;
+        this.textbox.focus();
         this.root.addEventListener('keydown', this.eventHandler.bind(this));
         this.root.addEventListener('keyup', this.eventHandler.bind(this));
         this.root.addEventListener('click', this.eventHandler.bind(this));
     }
 
     eventHandler(event) {
+        event.preventDefault();
+        this.textbox.focus();
         const eventCapitalized = event.type.charAt(0).toUpperCase() + event.type.slice(1);
         this[`on${eventCapitalized}`](event);
 
@@ -46,7 +47,6 @@ class Keyboard {
 
     render() {
         const container = createControl('div', '', [this.selector]);
-
         const collection = keysMap.find((item) => item.lang === 'en').keys;
 
         this.keys.forEach((row) => {
@@ -68,28 +68,54 @@ class Keyboard {
     }
 
     onKeydown(event) {
-        event.preventDefault();
+        let { selectionStart, selectionEnd } = this.textbox;
+        const { value } = this.textbox;
+        const button = this.root.querySelector(`[data-code="${event.code}"]`);
+        button.classList.add('pressed');
 
         if (event.code === 'CapsLock') {
             this.properties.isCapsSwitched = !this.properties.isCapsSwitched;
-            this.root.querySelector(`[data-code="${event.code}"]`).classList.add('pressed');
-            this.root.querySelector(`[data-code="${event.code}"]`).classList.toggle('switched');
+            button.classList.toggle('switched');
         }
-        this.root.querySelector(`[data-code="${event.code}"]`).classList.add('pressed');
-        this.textboxUpdate(event);
-        this.properties.isCapsSwitched = !this.properties.isCapsSwitched;
+        if (event.code === 'Backspace') {
+            if (selectionStart === selectionEnd) {
+                this.textbox.value = value.slice(0, selectionStart - 1) + value.slice(selectionEnd, value.length);
+                selectionStart -= 1;
+                selectionEnd -= 1;
+            } else if (selectionStart) {
+                this.textbox.value = value.substr(0, selectionStart) + value.substr(selectionEnd, value.length);
+            }
+        }
+        if (event.ctrlKey && event.altKey) {
+            console.log('you switched lang');
+        }
 
+        this.textboxUpdate(event);
         return this;
     }
 
     onKeyup(event) {
-        this.root.querySelector(`[data-code="${event.code}"]`).classList.remove('pressed');
+        const button = this.root.querySelector(`[data-code="${event.code}"]`);
+        button.classList.remove('pressed');
         return this;
     }
 
     onClick(event) {
-        if (event.target.classList.contains('keyboard__key')) {
-            this.textbox.textContent += event.target.innerText;
+        let { selectionStart, selectionEnd } = this.textbox;
+        const buttonData = event.target.dataset;
+        const { value } = this.textbox;
+
+        if ((event.target.classList.contains('keyboard__key') || event.target.closest('keyboard')) && !this.funcKeys.includes(buttonData.code)) {
+            this.textbox.setRangeText(event.target.value, selectionStart, selectionEnd, 'end');
+        }
+        if (buttonData.code === 'Backspace') {
+            if ((selectionStart === selectionEnd) && selectionStart) {
+                this.textbox.value = value.substr(0, selectionStart - 1) + value.substr(selectionEnd, value.length);
+                selectionStart = -1;
+                selectionEnd -= 1;
+            } else if (selectionStart) {
+                this.textbox.value = value.substr(0, selectionStart) + value.substr(selectionEnd, value.length);
+            }
         }
         return this;
     }
