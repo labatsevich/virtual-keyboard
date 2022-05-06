@@ -4,56 +4,68 @@ import keysMap from './utils/keysMap.js';
 import createControl from './utils/helpers.js';
 
 class Keyboard {
-    constructor() {
+    constructor(language) {
         this.selector = 'keyboard';
         this.root = document;
         this.textbox = null;
+        this.languages = ['en', 'ru'];
+        this.currentLang = language || 'en';
         this.properties = {
-            value: '',
+
             isCapsSwitched: false,
+            isShifted: false,
         };
         this.keys = [
             ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
             ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight'],
-            ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'],
-            ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
-            ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'MetaRight', 'ContextMenu', 'ControlRight', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'],
+            ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'IntlBackslash', 'Enter'],
+            ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight'],
+            ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'],
         ];
-        this.funcKeys = ['Backspace', 'Tab', 'CapsLock', 'Enter', 'ShiftLeft', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'MetaRight', 'ContextMenu', 'ControlRight', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+        this.funcKeys = ['Backspace', 'Tab', 'CapsLock', 'Enter', 'ShiftLeft', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'MetaRight', 'ContextMenu', 'ControlRight'];
+        this.arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
         this.specialKeys = {
             Enter: '\n',
             Space: ' ',
             Tab: '\t',
         };
+        this.buttons = [];
     }
 
     init() {
+        const { body } = this.root;
         this.textbox = createControl('textarea', '', []);
-        this.root.body.insertAdjacentElement('afterbegin', this.textbox);
+        body.insertAdjacentElement('afterbegin', this.textbox);
         this.textbox.focus();
         this.root.addEventListener('keydown', this.eventHandler.bind(this));
         this.root.addEventListener('keyup', this.eventHandler.bind(this));
         this.root.addEventListener('click', this.eventHandler.bind(this));
+        localStorage.setItem('lang', this.currentLang);
     }
 
     eventHandler(event) {
         event.preventDefault();
         this.textbox.focus();
-        const eventCapitalized = event.type.charAt(0).toUpperCase() + event.type.slice(1);
-        this[`on${eventCapitalized}`](event);
+        const eventType = event.type.charAt(0).toUpperCase() + event.type.slice(1);
+        this[`on${eventType}`](event);
 
         return this;
     }
 
     render() {
         const container = createControl('div', '', [this.selector]);
-        const collection = keysMap.find((item) => item.lang === 'en').keys;
+        const collection = keysMap;
 
         this.keys.forEach((row) => {
             const buttons = row.map((item) => {
-                const { code, lower } = collection.find((k) => k.code === item) || {};
-                const button = createControl('button', lower, ['keyboard__key', code.toLowerCase()]);
-                button.dataset.code = code;
+                const key = collection.find((k) => k.code === item) || {};
+                const button = createControl('button', (key[this.currentLang]) ? key[this.currentLang].lower : key.lower, ['keyboard__key', key.code.toLowerCase()]);
+                button.dataset.code = key.code;
+                button.dataset.enLower = (key.en) ? key.en.lower : key.lower;
+                button.dataset.enUpper = (key.en) ? key.en.upper : key.upper;
+                button.dataset.ruLower = (key.ru) ? key.ru.lower : key.lower;
+                button.dataset.ruUpper = (key.ru) ? key.ru.upper : key.upper;
+                this.buttons.push(button);
 
                 return button;
             });
@@ -87,7 +99,13 @@ class Keyboard {
             }
         }
         if (event.ctrlKey && event.altKey) {
-            console.log('you switched lang');
+            this.currentLang = this.languages.find((ln) => ln !== this.currentLang);
+            localStorage.setItem('lang', this.currentLang);
+            this.setLang(this.currentLang);
+        }
+        if (event.shiftKey && event.key === 'Shift' && !event.repeat) {
+            this.properties.isShifted = !this.properties.isShifted;
+            this.setUpperLower();
         }
 
         this.textboxUpdate(event);
@@ -95,8 +113,17 @@ class Keyboard {
     }
 
     onKeyup(event) {
-        const button = this.root.querySelector(`[data-code="${event.code}"]`);
-        button.classList.remove('pressed');
+        const button = this.buttons.find((item) => item.dataset.code === event.code);
+
+        if (event.key === 'Shift') {
+            this.properties.isShifted = !this.properties.isShifted;
+            this.setUpperLower();
+        }
+
+        if (button) {
+            button.classList.remove('pressed');
+        }
+
         return this;
     }
 
@@ -106,7 +133,7 @@ class Keyboard {
         const { value } = this.textbox;
 
         if ((event.target.classList.contains('keyboard__key') || event.target.closest('keyboard')) && !this.funcKeys.includes(buttonData.code)) {
-            this.textbox.setRangeText(event.target.value, selectionStart, selectionEnd, 'end');
+            this.textbox.setRangeText(event.target.innerText, selectionStart, selectionEnd, 'end');
         }
         if (buttonData.code === 'Backspace') {
             if ((selectionStart === selectionEnd) && selectionStart) {
@@ -120,6 +147,16 @@ class Keyboard {
         return this;
     }
 
+    setLang(lang) {
+        const shifted = this.properties.isShifted;
+        this.buttons.forEach((item) => {
+            if (!this.funcKeys.includes(item.dataset.code)) {
+                item.innerText = shifted ? item.dataset[`${lang}Upper`] : item.dataset[`${lang}Lower`];
+            }
+        });
+        return this;
+    }
+
     textboxUpdate(event) {
         let symbol = '';
         const { selectionStart, selectionEnd } = this.textbox;
@@ -130,6 +167,17 @@ class Keyboard {
         }
 
         this.textbox.setRangeText(symbol, selectionStart, selectionEnd, 'end');
+    }
+
+    setUpperLower() {
+        const shifted = this.properties.isShifted;
+
+        this.buttons.forEach((item) => {
+            if (!this.funcKeys.includes(item.dataset.code)) {
+                item.innerText = shifted ? item.dataset[`${this.currentLang}Upper`] : item.dataset[`${this.currentLang}Lower`];
+            }
+        });
+        return this;
     }
 }
 
