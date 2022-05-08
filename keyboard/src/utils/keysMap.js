@@ -96,6 +96,11 @@ export default [{
         upper: 'Backspace',
     },
     {
+        code: 'Delete',
+        lower: 'Del',
+        upper: 'Del',
+    },
+    {
         code: 'Tab',
         lower: 'Tab',
         upper: 'Tab',
@@ -399,22 +404,22 @@ export default [{
     },
     {
         code: 'ArrowLeft',
-        lower: '🠔',
-        upper: '🠔',
+        lower: '\u2190',
+        upper: '\u2190',
     },
     {
         code: 'ArrowRight',
-        lower: '🠖',
-        upper: '🠖',
+        lower: '\u2192',
+        upper: '\u2192',
     },
     {
         code: 'ArrowUp',
-        lower: '🠕',
-        upper: '🠕',
+        lower: '\u2191',
+        upper: '\u2191',
     },
     {
         code: 'ArrowDown',
-        lower: '🠗',
-        upper: '🠗',
+        lower: '\u2193',
+        upper: '\u2193',
     },
 ];
