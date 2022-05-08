@@ -98,6 +98,9 @@ class Keyboard {
                 this.textbox.value = value.substr(0, selectionStart) + value.substr(selectionEnd, value.length);
             }
         }
+        if (event.code === 'Delete') {
+            this.textbox.setRangeText('', selectionStart, selectionEnd + 1, 'end');
+        }
         if (event.ctrlKey && event.altKey) {
             this.currentLang = this.languages.find((ln) => ln !== this.currentLang);
             localStorage.setItem('lang', this.currentLang);
@@ -203,7 +206,7 @@ class Keyboard {
         let symbol = '';
         const { selectionStart, selectionEnd } = this.textbox;
         const shifted = this.properties.isShifted;
-        const isCaps = this.properties.isShifted;
+        const isCaps = this.properties.isCapsSwitched;
         const { code } = event;
         const button = this.buttons.find((item) => item.dataset.code === code);
 
