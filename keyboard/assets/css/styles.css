@@ -274,6 +274,12 @@ body {
 .keyboard__key.switched.capslock::after {
   background-color: lawngreen;
 }
+.keyboard__key:hover {
+  background-color: rgb(149, 208, 241);
+}
+.keyboard__key:hover.pressed {
+  background-color: rgb(89, 187, 243);
+}
 .keyboard .capslock {
   position: relative;
 }

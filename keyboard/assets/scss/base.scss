@@ -40,6 +40,12 @@ body {
                 }
             }
         }
+        &:hover {
+            background-color: rgb(149, 208, 241);
+            &.pressed {
+                background-color: rgb(89, 187, 243);
+            }
+        }
     }
     .capslock {
         position: relative;
