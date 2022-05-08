@@ -291,13 +291,18 @@ body {
 .keyboard .backspace,
 .keyboard .enter,
 .keyboard .capslock,
-.keyboard .shiftright,
 .keyboard .shiftleft,
 .keyboard .tab {
   flex-basis: 100px;
 }
 .keyboard .space {
-  flex-basis: 250px;
+  flex-basis: 320px;
+}
+.keyboard .shiftright {
+  flex-basis: 80px;
+}
+.keyboard .arrowup {
+  flex-basis: 19px;
 }
 
 textarea {

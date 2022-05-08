@@ -58,13 +58,18 @@ body {
     .backspace,
     .enter,
     .capslock,
-    .shiftright,
     .shiftleft,
     .tab {
         flex-basis: 100px;
     }
     .space {
-        flex-basis: 250px;
+        flex-basis: 320px;
+    }
+    .shiftright {
+        flex-basis: 80px;
+    }
+    .arrowup {
+        flex-basis: 19px;
     }
 }
 
