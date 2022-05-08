@@ -310,6 +310,10 @@ body {
 .keyboard .arrowup {
   flex-basis: 19px;
 }
+.keyboard__info {
+  text-align: center;
+  padding: 1rem 0 0 0;
+}
 
 textarea {
   box-sizing: border-box;
@@ -320,7 +324,7 @@ textarea {
   border-color: #c6c6c6;
   color: #444;
   width: 100%;
-  margin: 100px auto 100px;
+  margin: 100px auto 10px;
 }
 
 /*# sourceMappingURL=styles.css.map */

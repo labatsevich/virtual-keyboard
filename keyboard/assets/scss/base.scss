@@ -77,6 +77,10 @@ body {
     .arrowup {
         flex-basis: 19px;
     }
+    &__info {
+        text-align: center;
+        padding: 1rem 0 0 0;
+    }
 }
 
 textarea {
@@ -88,5 +92,5 @@ textarea {
     border-color: #c6c6c6;
     color: #444;
     width: 100%;
-    margin: 100px auto 100px;
+    margin: 100px auto 10px;
 }
