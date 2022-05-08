@@ -37,10 +37,6 @@ class Keyboard {
         this.textbox = createControl('textarea', '', []);
         body.insertAdjacentElement('afterbegin', this.textbox);
         this.textbox.focus();
-        this.root.addEventListener('keydown', this.eventHandler.bind(this));
-        this.root.addEventListener('keyup', this.eventHandler.bind(this));
-        this.root.addEventListener('click', this.eventHandler.bind(this));
-        this.root.addEventListener('mouseup', this.eventHandler.bind(this));
         localStorage.setItem('lang', this.currentLang);
     }
 
@@ -134,16 +130,15 @@ class Keyboard {
     onClick(event) {
         const { target } = event;
         let { selectionStart, selectionEnd } = this.textbox;
-        const buttonData = target.dataset;
         let { value } = this.textbox;
 
-        if (target.classList.contains('keyboard__key') && !this.funcKeys.includes(buttonData.code)) {
+        if (target.classList.contains('keyboard__key') && !this.funcKeys.includes(target.dataset.code)) {
             this.textbox.setRangeText(target.innerText, selectionStart, selectionEnd, 'end');
         }
-        if (['Enter', 'Tab', 'Space'].includes(buttonData.code)) {
-            this.textbox.setRangeText(this.specialKeys[buttonData.code], selectionStart, selectionEnd, 'end');
+        if (['Enter', 'Tab', 'Space'].includes(target.dataset.code)) {
+            this.textbox.setRangeText(this.specialKeys[target.dataset.code], selectionStart, selectionEnd, 'end');
         }
-        if (buttonData.code === 'Backspace') {
+        if (target.dataset.code === 'Backspace') {
             if ((selectionStart === selectionEnd) && selectionStart) {
                 this.textbox.value = value.substr(0, selectionStart - 1) + value.substr(selectionEnd, value.length);
                 selectionStart = -1;
@@ -152,7 +147,7 @@ class Keyboard {
                 value = value.substr(0, selectionStart) + value.substr(selectionEnd, value.length);
             }
         }
-        if (buttonData && buttonData.code === 'Delete') {
+        if (target.dataset && target.dataset.code === 'Delete') {
             this.textbox.setRangeText('', selectionStart, selectionEnd + 1, 'end');
         }
         return this;
@@ -192,6 +187,7 @@ class Keyboard {
 
     setLang(lang) {
         const shifted = this.properties.isShifted;
+
         this.buttons.forEach((item) => {
             const button = item;
             const { code } = item.dataset;
@@ -208,13 +204,13 @@ class Keyboard {
         const { selectionStart, selectionEnd } = this.textbox;
         const shifted = this.properties.isShifted;
         const isCaps = this.properties.isShifted;
-        const { code } = event.code;
+        const { code } = event;
+        const button = this.buttons.find((item) => item.dataset.code === code);
 
         if (this.arrowKeys.includes(code)) {
-            const button = this.buttons.find((item) => item.dataset.code === code);
             symbol = button.dataset.enLower || '';
         } else if (!this.funcKeys.includes(code)) {
-            symbol = (shifted || isCaps) ? event.key.toUpperCase() : event.key;
+            symbol = (shifted || isCaps) ? button.dataset[`${this.currentLang}Upper`] : button.dataset[`${this.currentLang}Lower`];
         } else if (['Enter', 'Tab', 'Space'].includes(code)) {
             symbol = this.specialKeys[code] || '';
         }
