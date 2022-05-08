@@ -378,8 +378,8 @@ export default [{
     },
     {
         code: 'Space',
-        lower: 'Space',
-        upper: 'Space',
+        lower: '',
+        upper: '',
     },
     {
         code: 'AltRight',

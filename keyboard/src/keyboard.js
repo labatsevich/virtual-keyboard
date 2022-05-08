@@ -168,6 +168,11 @@ class Keyboard {
                     this.properties.isShifted = !this.properties.isShifted;
                     this.setUpperLower();
                     break;
+                case 'CapsLock':
+                    this.properties.isCapsSwitched = !this.properties.isCapsSwitched;
+                    this.setUpperLower();
+                    button.classList.toggle('switched');
+                    break;
                 default:
                     break;
             }
