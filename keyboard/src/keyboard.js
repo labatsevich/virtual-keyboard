@@ -208,14 +208,15 @@ class Keyboard {
         const { selectionStart, selectionEnd } = this.textbox;
         const shifted = this.properties.isShifted;
         const isCaps = this.properties.isShifted;
+        const { code } = event.code;
 
-        if (this.arrowKeys.includes(event.code)) {
-            const button = this.buttons.find((item) => item.dataset.code === event.code);
+        if (this.arrowKeys.includes(code)) {
+            const button = this.buttons.find((item) => item.dataset.code === code);
             symbol = button.dataset.enLower || '';
-        } else if (!this.funcKeys.includes(event.code)) {
+        } else if (!this.funcKeys.includes(code)) {
             symbol = (shifted || isCaps) ? event.key.toUpperCase() : event.key;
-        } else if (['Enter', 'Tab', 'Space'].includes(event.code)) {
-            symbol = this.specialKeys[event.code] || '';
+        } else if (['Enter', 'Tab', 'Space'].includes(code)) {
+            symbol = this.specialKeys[code] || '';
         }
 
         this.textbox.setRangeText(symbol, selectionStart, selectionEnd, 'end');
