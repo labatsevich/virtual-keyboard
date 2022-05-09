@@ -91,11 +91,17 @@ class Keyboard {
         }
         if (event.code === 'Backspace') {
             if (selectionStart === selectionEnd) {
-                this.textbox.value = value.slice(0, selectionStart - 1) + value.slice(selectionEnd, value.length);
+                const before = value.slice(0, selectionStart - 1);
+                const after = value.slice(selectionEnd, value.length);
+
+                this.textbox.value = before + after;
                 selectionStart -= 1;
                 selectionEnd -= 1;
             } else if (selectionStart) {
-                this.textbox.value = value.substr(0, selectionStart) + value.substr(selectionEnd, value.length);
+                const str1 = value.substr(0, selectionStart);
+                const str2 = value.substr(selectionEnd, value.length);
+
+                this.textbox.value = str1 + str2;
             }
         }
         if (event.code === 'Delete') {
@@ -143,7 +149,10 @@ class Keyboard {
         }
         if (target.dataset.code === 'Backspace') {
             if ((selectionStart === selectionEnd) && selectionStart) {
-                this.textbox.value = value.substr(0, selectionStart - 1) + value.substr(selectionEnd, value.length);
+                const before = value.substr(0, selectionStart - 1);
+                const after = value.substr(selectionEnd, value.length);
+
+                this.textbox.value = before + after;
                 selectionStart = -1;
                 selectionEnd -= 1;
             } else if (selectionStart) {
