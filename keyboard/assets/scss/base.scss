@@ -26,6 +26,8 @@ body {
         flex: 1;
         line-height: 2.3rem;
         border-radius: 4px;
+        transition: background-color .3s;
+        background-color: #ececec;
         margin: 3px;
         border: none;
         box-shadow: 0 1px 2px rgba($color: #000000, $alpha: .3);
@@ -80,6 +82,15 @@ body {
     &__info {
         text-align: center;
         padding: 1rem 0 0 0;
+    }
+}
+
+@keyframes border {
+    from {
+        border-radius: 4px;
+    }
+    to {
+        border-radius: 25px;
     }
 }
 
