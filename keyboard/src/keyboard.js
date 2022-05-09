@@ -82,7 +82,13 @@ class Keyboard {
         let { selectionStart, selectionEnd } = this.textbox;
         const { value } = this.textbox;
         const button = this.root.querySelector(`[data-code="${event.code}"]`);
+        const langIndicator = this.root.querySelector('.lang__indicator');
+
         button.classList.add('pressed');
+
+        const updateLang = (lang) => {
+            langIndicator.innerText = lang;
+        };
 
         if (event.code === 'CapsLock') {
             this.properties.isCapsSwitched = !this.properties.isCapsSwitched;
@@ -111,6 +117,7 @@ class Keyboard {
             this.currentLang = this.languages.find((ln) => ln !== this.currentLang);
             localStorage.setItem('lang', this.currentLang);
             this.setLang(this.currentLang);
+            updateLang(this.currentLang);
         }
         if (event.shiftKey && event.key === 'Shift' && !event.repeat) {
             this.properties.isShifted = !this.properties.isShifted;
@@ -118,6 +125,7 @@ class Keyboard {
         }
 
         this.textboxUpdate(event);
+
         return this;
     }
 

@@ -83,6 +83,16 @@ body {
     }
 }
 
+.lang {
+    &__info {
+        text-align: center;
+        padding: 1rem 0 0 0;
+    }
+    &__indicator {
+        font-weight: 700;
+    }
+}
+
 textarea {
     box-sizing: border-box;
     max-width: 850px;
