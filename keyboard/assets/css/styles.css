@@ -315,6 +315,14 @@ body {
   padding: 1rem 0 0 0;
 }
 
+.lang__info {
+  text-align: center;
+  padding: 1rem 0 0 0;
+}
+.lang__indicator {
+  font-weight: 700;
+}
+
 textarea {
   box-sizing: border-box;
   max-width: 850px;
