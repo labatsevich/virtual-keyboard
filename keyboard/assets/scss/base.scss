@@ -1,0 +1,96 @@
+@import 'normalize';
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.keyboard {
+    position: relative;
+    display: flex;
+    max-width: 850px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #c6c6c6;
+    flex-direction: column;
+    padding: 5px 10px 10px;
+    &__row {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__key {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        outline: none;
+        flex: 1;
+        line-height: 2.3rem;
+        border-radius: 4px;
+        margin: 3px;
+        border: none;
+        box-shadow: 0 1px 2px rgba($color: #000000, $alpha: .3);
+        &.pressed,
+        &.switched {
+            background-color: rgb(89, 187, 243);
+        }
+        &.switched {
+            &.capslock {
+                &::after {
+                    background-color: lawngreen;
+                }
+            }
+        }
+        &:hover {
+            background-color: rgb(149, 208, 241);
+            &.pressed {
+                background-color: rgb(89, 187, 243);
+            }
+        }
+    }
+    .capslock {
+        position: relative;
+        &:after {
+            display: block;
+            width: 6px;
+            height: 6px;
+            position: absolute;
+            left: 10px;
+            top: calc(50% - 3px);
+            content: '';
+            border-radius: 100%;
+            background-color: darkgreen;
+        }
+    }
+    .backspace,
+    .enter,
+    .capslock,
+    .shiftleft,
+    .tab {
+        flex-basis: 100px;
+    }
+    .space {
+        flex-basis: 320px;
+    }
+    .shiftright {
+        flex-basis: 80px;
+    }
+    .arrowup {
+        flex-basis: 19px;
+    }
+    &__info {
+        text-align: center;
+        padding: 1rem 0 0 0;
+    }
+}
+
+textarea {
+    box-sizing: border-box;
+    max-width: 850px;
+    padding: 10px;
+    min-height: 250px;
+    border-radius: 4px;
+    border-color: #c6c6c6;
+    color: #444;
+    width: 100%;
+    margin: 100px auto 10px;
+}
