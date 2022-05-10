@@ -84,8 +84,9 @@ class Keyboard {
         const button = this.root.querySelector(`[data-code="${event.code}"]`);
         const langIndicator = this.root.querySelector('.lang__indicator');
 
-        button.classList.add('pressed');
-
+        if (button) {
+            button.classList.add('pressed');
+        }
         const updateLang = (lang) => {
             langIndicator.innerText = lang;
         };
