@@ -282,7 +282,9 @@ export default [{
         upper: 'Shift',
     },
     {
-        code: 'IntlBackslash',
+        code: 'Backslash',
+        en: { lower: '\\', upper: '|' },
+        ru: { lower: '\\', upper: '/' },
         lower: '\\',
         upper: '|',
     },
