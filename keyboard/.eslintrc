@@ -1,0 +1,14 @@
+{
+    "extends": "airbnb-base",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "rules": {
+        "eol-last":"warn",
+        "indent":["error",4]
+    }
+}

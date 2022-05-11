@@ -1,0 +1,30 @@
+{
+    "name": "virtual-keyboard",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "lint": "eslint ./src",
+        "lint:fix": "eslint ./src --fix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/labatsevich/virtual-keyboard.git"
+    },
+    "keywords": [
+        "keyboard",
+        "virtual-keyboard",
+        "rssschool"
+    ],
+    "author": "yuri labatsevich",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/labatsevich/virtual-keyboard/issues"
+    },
+    "homepage": "https://github.com/labatsevich/virtual-keyboard#readme",
+    "devDependencies": {
+        "eslint": "^8.14.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.26.0"
+    }
+}
