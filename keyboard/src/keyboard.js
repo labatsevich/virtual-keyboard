@@ -18,7 +18,7 @@ class Keyboard {
         this.keys = [
             ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
             ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Delete'],
-            ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'IntlBackslash', 'Enter'],
+            ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Backslash', 'Enter'],
             ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight'],
             ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'],
         ];
@@ -233,15 +233,19 @@ class Keyboard {
         const { code } = event;
         const button = this.buttons.find((item) => item.dataset.code === code);
 
-        if (this.arrowKeys.includes(code)) {
-            symbol = button.dataset.enLower || '';
-        } else if (!this.funcKeys.includes(code)) {
-            symbol = (shifted || isCaps) ? button.dataset[`${this.currentLang}Upper`] : button.dataset[`${this.currentLang}Lower`];
-        } else if (['Enter', 'Tab', 'Space'].includes(code)) {
-            symbol = this.specialKeys[code] || '';
-        }
+        if (button) {
+            if (this.arrowKeys.includes(code)) {
+                symbol = button.dataset.enLower || '';
+            } else if (!this.funcKeys.includes(code)) {
+                if (shifted && isCaps) symbol = button.dataset[`${this.currentLang}Lower`];
+                if ((isCaps && !shifted) || (!isCaps && shifted)) symbol = button.dataset[`${this.currentLang}Upper`];
+                if (!isCaps && !shifted) symbol = button.dataset[`${this.currentLang}Lower`];
+            } else if (['Enter', 'Tab', 'Space'].includes(code)) {
+                symbol = this.specialKeys[code] || '';
+            }
 
-        this.textbox.setRangeText(symbol, selectionStart, selectionEnd, 'end');
+            this.textbox.setRangeText(symbol, selectionStart, selectionEnd, 'end');
+        }
     }
 
     setUpperLower() {
@@ -254,7 +258,9 @@ class Keyboard {
             const isArrow = this.arrowKeys.includes(item.dataset.code);
 
             if (!isFunc || !isArrow) {
-                button.innerText = (shifted || isCaps) ? item.dataset[`${this.currentLang}Upper`] : item.dataset[`${this.currentLang}Lower`];
+                if ((isCaps && !shifted) || (!isCaps && shifted)) button.innerText = item.dataset[`${this.currentLang}Upper`];
+                if (!isCaps && !shifted) button.innerText = item.dataset[`${this.currentLang}Lower`];
+                if (isCaps && shifted) button.innerText = item.dataset[`${this.currentLang}Lower`];
             }
         });
         return this;
